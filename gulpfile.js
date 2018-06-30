@@ -11,38 +11,38 @@ var pngquant = require('imagemin-pngquant');
 
 
 gulp.task('imagemin', function () {
-    return gulp.src('./wp-content/themes/olympos/images/*')
+    return gulp.src('web/images/*')
         .pipe(imagemin({
             progressive: true,
             svgoPlugins: [{removeViewBox: false}],
             use: [pngquant()]
         }))
-        .pipe(gulp.dest('./wp-content/themes/olympos/images'));
+        .pipe(gulp.dest('web/images'));
 });
 
 
 gulp.task('sass', function () {
-  gulp.src('./wp-content/themes/olympos/sass/**/*.scss')
+  gulp.src('web/sass/**/*.scss')
     .pipe(sourcemaps.init())
         .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
         .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 7', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
     .pipe(sourcemaps.write('./'))
-    .pipe(gulp.dest('./wp-content/themes/olympos'));
+    .pipe(gulp.dest('web'));
 });
 
 
 gulp.task('uglify', function() {
-  gulp.src('./wp-content/themes/olympos/lib/*.js')
-    .pipe(uglify('olympos.min.js'))
-    .pipe(gulp.dest('./wp-content/themes/olympos/js'))
+  gulp.src('web/lib/*.js')
+    .pipe(uglify('app.js'))
+    .pipe(gulp.dest('web/js'))
 });
 
 gulp.task('watch', function(){
     livereload.listen();
 
-    gulp.watch('./wp-content/themes/olympos/sass/**/*.scss', ['sass']);
-    gulp.watch('./wp-content/themes/olympos/lib/*.js', ['uglify']);
-    gulp.watch(['./wp-content/themes/olympos/style.css', './wp-content/themes/olympos/*.php', './wp-content/themes/olympos/js/*.js', './wp-content/themes/olympos/parts/**/*.php'], function (files){
+    gulp.watch('web/sass/**/*.scss', ['sass']);
+    gulp.watch('web/lib/*.js', ['uglify']);
+    gulp.watch(['web/style.css', 'web/*.php', 'web/js/*.js', 'web/parts/**/*.php'], function (files){
         livereload.changed(files)
     });
 });
